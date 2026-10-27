@@ -1,0 +1,130 @@
+{
+  "name": "N8N API Authentication Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        -32
+      ],
+      "id": "c0cc043f-49ee-49de-80a6-0bed2bc5c70a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://postman-echo.com/basic-auth",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -496,
+        -32
+      ],
+      "id": "bddea955-f436-46dc-b8e0-df15167bc9a8",
+      "name": "HTTP_BasicAuth",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "k9K0RABi8kZxbrH5",
+          "name": "trainee_user"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://postman-echo.com/headers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -288,
+        -32
+      ],
+      "id": "08d0b1f2-f3e3-47c9-a015-59c3e79bdcc1",
+      "name": "HTTP_BearerAuth",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s0awtpnLMc9m7Cef",
+          "name": "trainee_bearer_token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/user",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -64,
+        -32
+      ],
+      "id": "550b0ed2-8e53-4aee-8bc5-5a81fb23337c",
+      "name": "HTTP_OAuth2",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "BWnxXYBDC8CRaTCU",
+          "name": "GitHub account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP_BasicAuth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP_BasicAuth": {
+      "main": [
+        [
+          {
+            "node": "HTTP_BearerAuth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP_BearerAuth": {
+      "main": [
+        [
+          {
+            "node": "HTTP_OAuth2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3efe6ac6-0ba6-47ff-86e6-5885a5b7b903",
+  "meta": {
+    "instanceId": "a03c7678428ef19ededbf912f16f7d5798ec7b9ab4c17f2a2def6a9e791e7215"
+  },
+  "nodeGroups": [],
+  "id": "KC3A3OfNYgeDQpQy",
+  "tags": []
+}
